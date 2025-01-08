@@ -1,6 +1,6 @@
-import LoginForm from "@/components/Login/LoginForm"
+import { LoginForm } from "@/components/login-form"
 
-const LoginPage = () => {
+export default function Page() {
   return (
     <div className="flex min-h-svh w-full items-center justify-center p-6 md:p-10">
       <div className="w-full max-w-sm">
@@ -9,5 +9,3 @@ const LoginPage = () => {
     </div>
   )
 }
-
-export default LoginPage
