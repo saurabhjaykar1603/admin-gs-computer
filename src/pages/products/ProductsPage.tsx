@@ -1,7 +1,10 @@
 import { Button } from "@/components/ui/button";
 import { PlusCircle } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 function ProductPage() {
+  const navigate = useNavigate();
+
   return (
     <>
       <div className="flex flex-row justify-between items-center gap-2">
@@ -14,7 +17,7 @@ function ProductPage() {
           </p>
         </div>
         <div>
-          <Button variant={"destructive"}>
+          <Button variant={"destructive"}onClick={()=>navigate("/dashboard/add-products")}>
             {" "}
             <PlusCircle className="text-3xl" /> Add Product
           </Button>
