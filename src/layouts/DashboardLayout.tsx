@@ -44,7 +44,7 @@ export default function DashbaordLayout() {
           </Breadcrumb>
         </header>
 
-        <section className="m-3">
+        <section className="m-5">
           <Outlet />
         </section>
       </SidebarInset>

@@ -22,9 +22,19 @@ const data = {
       url: "/products",
       items: [
         {
+          title: "Products",
+          url: "/dashboard/products",
+        },
+        {
           title: "Add Product",
           url: "/dashboard/add-products",
         },
+      ],
+    },
+    {
+      title: "Categories",
+      url: "/dashbaord",
+      items: [
         {
           title: "Category",
           url: "/dashboard/category",
