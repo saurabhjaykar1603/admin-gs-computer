@@ -6,6 +6,7 @@ import App from "./App";
 import AddProduct from "./pages/products/AddProduct";
 import Login from "./pages/Auth/Login";
 import Register from "./pages/Auth/Register";
+import Category from "./pages/category/Category";
 
 export const router = createBrowserRouter([
   //   {
@@ -55,6 +56,10 @@ export const router = createBrowserRouter([
       {
         path: "add-products",
         element: <AddProduct />,
+      },
+      {
+        path: "category",
+        element: <Category />,
       },
     ],
   },

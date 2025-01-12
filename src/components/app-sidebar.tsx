@@ -26,8 +26,8 @@ const data = {
           url: "/dashboard/add-products",
         },
         {
-          title: "Add Category",
-          url: "/add-category",
+          title: "Category",
+          url: "/dashboard/category",
         },
       ],
     },
