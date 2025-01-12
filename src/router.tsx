@@ -1,11 +1,11 @@
 import { createBrowserRouter, Navigate } from "react-router-dom";
-import LoginPage from "./pages/auth/Login";
-import RegisterPage from "./pages/auth/RegisterPage";
 import Authlayout from "./layouts/Authlayout";
 import DashbaordLayout from "./layouts/DashboardLayout";
 import ProductPage from "./pages/products/ProductsPage";
 import App from "./App";
 import AddProduct from "./pages/products/AddProduct";
+import Login from "./pages/Auth/Login";
+import Register from "./pages/Auth/Register";
 
 export const router = createBrowserRouter([
   //   {
@@ -31,11 +31,11 @@ export const router = createBrowserRouter([
       },
       {
         path: "login",
-        element: <LoginPage />,
+        element: <Login />,
       },
       {
         path: "register",
-        element: <RegisterPage />,
+        element: <Register />,
       },
     ],
   },
