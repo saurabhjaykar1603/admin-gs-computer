@@ -13,14 +13,15 @@ import {
   SidebarProvider,
   SidebarTrigger,
 } from "@/components/ui/sidebar";
+import { useUserStore } from "@/store/userStore";
 import { Navigate, Outlet } from "react-router-dom";
 
 export default function DashbaordLayout() {
-  const user = true;
-
-  if (!user) {
-    return <Navigate to={"/auth"} replace />;
+  const token = useUserStore((state) => state.user);
+  if (!token) {
+    return <Navigate to={"/auth/login"} replace />;
   }
+
   return (
     <SidebarProvider>
       <AppSidebar />
@@ -44,7 +45,7 @@ export default function DashbaordLayout() {
         </header>
 
         <section className="bg-gray-100 h-screen p-4 m-3 rounded-sm">
-            <Outlet />
+          <Outlet />
         </section>
       </SidebarInset>
     </SidebarProvider>

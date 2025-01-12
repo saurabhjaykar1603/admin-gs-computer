@@ -1,9 +1,10 @@
+import { useUserStore } from "@/store/userStore";
 import { Outlet, Navigate } from "react-router-dom";
 
 function Authlayout() {
-  const user = 0;
+  const token = useUserStore((state) => state.user);
 
-  if (user) {
+  if (token || token !== null) {
     return <Navigate to={"/dashboard"} replace />;
   }
   return (
