@@ -1,12 +1,12 @@
-import LoginForm from "@/features/Auth/Login/LoginForm";
+import RegisterForm from "@/features/Auth/Register/RegisterForm";
 
-function Login() {
+function Register() {
   return (
     <div className="flex h-screen">
       {/* Left Side: Image */}
       <div className="flex-1  md:block hidden ">
         <img
-          src="/login.svg"
+          src="/signup.svg"
           alt="Login Illustration"
           className="w-full h-full object-cover"
         />
@@ -14,10 +14,10 @@ function Login() {
 
       {/* Right Side: Login Form */}
       <div className="flex-1 flex items-center justify-center bg-gray-100 p-8">
-        <LoginForm />
+        <RegisterForm />
       </div>
     </div>
   );
 }
 
-export default Login;
+export default  Register

@@ -8,7 +8,6 @@ function Authlayout() {
   }
   return (
     <div>
-        <h1>header</h1>
       <Outlet />
     </div>
   );
