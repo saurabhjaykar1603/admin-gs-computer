@@ -47,7 +47,7 @@ export const useProducts = () => {
   }
 
   return {
-    products,
+    products: products?.products,
     isLoading,
     error,
     refetch,
