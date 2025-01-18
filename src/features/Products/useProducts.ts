@@ -26,7 +26,7 @@ export const useProducts = () => {
     refetch,
   } = useQuery({
     queryKey: ["products", filters],
-    queryFn: ({ signal }) => getAllProductsApi(filters, signal),
+    queryFn: () => getAllProductsApi(filters),
   });
   const pageCount = Math.ceil(products?.total / filters.limit);
 
@@ -34,7 +34,7 @@ export const useProducts = () => {
     const newFilters = { ...filters, page: filters.page + 1 };
     queryClient.prefetchQuery({
       queryKey: ["products", newFilters],
-      queryFn: ({ signal }) => getAllProductsApi(newFilters, signal),
+      queryFn: () => getAllProductsApi(newFilters),
     });
   }
 
@@ -42,7 +42,7 @@ export const useProducts = () => {
     const newFilters = { ...filters, page: filters.page - 1 };
     queryClient.prefetchQuery({
       queryKey: ["products", newFilters],
-      queryFn: ({ signal }) => getAllProductsApi(newFilters, signal),
+      queryFn: () => getAllProductsApi(newFilters),
     });
   }
 

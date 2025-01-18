@@ -66,7 +66,7 @@ async function uploadImage(id: string, imageFile: File | Array<File>) {
 }
 export const getAllProductsApi = async (
   filter: Record<string, unknown>,
-  signal: AbortSignal
+  signal?: AbortSignal
 ) => {
   const response = await api.get(
     buildUrl("/api/v1/products/vender-products", filter, false),
