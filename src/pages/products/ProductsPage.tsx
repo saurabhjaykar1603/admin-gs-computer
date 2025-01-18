@@ -1,9 +1,12 @@
 import { Button } from "@/components/ui/button";
+import ProductList from "@/features/Products/ProductList";
+import { useProducts } from "@/features/Products/useProducts";
 import { PlusCircle } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
 function ProductPage() {
   const navigate = useNavigate();
+  const { products, isLoading, error, pageCount, totalSize } = useProducts();
 
   return (
     <>
@@ -17,20 +20,21 @@ function ProductPage() {
           </p>
         </div>
         <div>
-          <Button variant={"destructive"}onClick={()=>navigate("/dashboard/add-products")}>
+          <Button variant={"destructive"} onClick={() => navigate("/dashboard/add-products")}>
             {" "}
             <PlusCircle className="text-3xl" /> Add Product
           </Button>
         </div>
       </div>
-      <div className="flex flex-1 flex-col gap-4 p-4">
-        <div className="grid auto-rows-min gap-4 md:grid-cols-3">
-          <div className="aspect-video rounded-xl bg-muted/50" />
-          <div className="aspect-video rounded-xl bg-muted/50" />
-          <div className="aspect-video rounded-xl bg-muted/50" />
-        </div>
-        <div className="min-h-[100vh] flex-1 rounded-xl bg-muted/50 md:min-h-min" />
-      </div>
+
+      <ProductList
+        productData={products}
+        isProductDataError={error}
+        isProductDataLoading={isLoading}
+        pageCount={pageCount}
+        totalSize={totalSize}
+      />
+
     </>
   );
 }
