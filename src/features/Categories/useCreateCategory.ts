@@ -21,11 +21,14 @@ export const useCreateCategory = () => {
         variant: "default",
       });
     },
-    onError: () => {
+    onError: (err: AxiosError) => {
+      const errorMessage =
+        (err.response?.data as { message?: string }).message ||
+        "An error occurred";
       toast({
-        title: "Error",
-        description: "Failed to create category. Please try again.",
-        variant: "destructive",
+        title: "info",
+        description: errorMessage,
+        variant: "default",
       });
     },
   });
