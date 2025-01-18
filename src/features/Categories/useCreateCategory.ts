@@ -20,7 +20,7 @@ export const useCreateCategory = () => {
         description: "The category has been created.",
         variant: "default",
       });
-    },
+    }, 
     onError: () => {
       toast({
         title: "Error",
