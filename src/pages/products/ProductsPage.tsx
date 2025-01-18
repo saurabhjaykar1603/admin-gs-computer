@@ -7,7 +7,7 @@ import { useNavigate } from "react-router-dom";
 function ProductPage() {
   const navigate = useNavigate();
   const { products, isLoading, error, pageCount, totalSize } = useProducts();
-
+  
   return (
     <>
       <div className="flex flex-row justify-between items-center gap-2">
