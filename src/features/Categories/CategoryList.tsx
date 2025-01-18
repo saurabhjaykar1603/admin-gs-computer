@@ -3,6 +3,7 @@ import { Category } from "@/types/Category";
 import { useEffect } from "react";
 import CategoryCard from "./CategoryCard";
 import { Skeleton } from "@/components/ui/skeleton";
+import AddCategoryButton from "./AddCategoryButton";
 
 interface CategoryListProps {
   categories: Category[];
@@ -37,6 +38,9 @@ function CategoryList({ categories, isLoading, error }: CategoryListProps) {
   );
   return (
     <div className="space-y-4">
+      <div>
+        <AddCategoryButton/>
+      </div>
       {categories.map((category) => (
         <CategoryCard key={category._id} name={category.name} id={category._id} />
       ))}

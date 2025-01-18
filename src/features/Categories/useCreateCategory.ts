@@ -20,12 +20,12 @@ export const useCreateCategory = () => {
         description: "The category has been created.",
         variant: "default",
       });
-    }, 
+    },
     onError: () => {
       toast({
-        title: "Error",
-        description: "Failed to create category. Please try again.",
-        variant: "destructive",
+        title: "info",
+        description: errorMessage,
+        variant: "default",
       });
     },
   });
