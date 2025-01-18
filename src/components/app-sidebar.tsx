@@ -1,5 +1,6 @@
 import * as React from "react";
 import { GalleryVerticalEnd } from "lucide-react";
+import { Link } from "react-router-dom";
 
 import { NavMain } from "@/components/nav-main";
 import { SidebarOptInForm } from "@/components/sidebar-opt-in-form";
@@ -51,20 +52,20 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         <SidebarMenu>
           <SidebarMenuItem>
             <SidebarMenuButton size="lg" asChild>
-              <a href="#">
+              <Link to="/">
                 <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-sidebar-primary text-sidebar-primary-foreground">
                   <GalleryVerticalEnd className="size-4" />
                 </div>
                 <div className="flex flex-col gap-0.5 leading-none">
                   <span className="font-semibold">GS-Computer</span>
                 </div>
-              </a>
+              </Link>
             </SidebarMenuButton>
           </SidebarMenuItem>
         </SidebarMenu>
       </SidebarHeader>
       <SidebarContent>
-        <NavMain items={data.navMain} />
+        <NavMain items={data.navMain}/>
       </SidebarContent>
       <SidebarFooter>
         <div className="p-1">
