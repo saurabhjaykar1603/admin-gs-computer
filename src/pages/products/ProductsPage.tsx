@@ -15,9 +15,7 @@ function ProductPage() {
           <h1 className="text-3xl font-bold tracking-tight md:text-4xl lg:text-4xl mb-2 text-red-600">
             ALL Products
           </h1>
-          <p className="text-sm text-muted-foreground md:text-base text-red-500">
-            Create and manage your product inventory
-          </p>
+          
         </div>
         <div>
           <Button variant={"destructive"} onClick={() => navigate("/dashboard/add-products")}>
