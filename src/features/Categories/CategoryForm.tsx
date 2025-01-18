@@ -9,10 +9,7 @@ const formSchema = z.object({
 });
 
 interface CategoryFormProps {
-  initialData?: {
-    name: string;
-    description?: string;
-  };
+  initialData?:string
   onSubmit: (values: z.infer<typeof formSchema>) => void;
 }
 
@@ -20,7 +17,7 @@ function CategoryForm({ initialData, onSubmit }: CategoryFormProps) {
   const { register, handleSubmit: handleFormSubmit, formState: { errors }, reset } = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      name: initialData?.name || "",
+      name: initialData || "",
     },
   });
 
