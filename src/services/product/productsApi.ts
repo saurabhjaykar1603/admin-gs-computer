@@ -79,7 +79,8 @@ export const getProductByIdApi = async (id: string) => {
   const response = await api.get(
     buildUrl(`/api/v1/products/vender-products?id=${id}`)
   );
-  return response.data.data;
+  
+  return response.data;
 };
 
 export const deleteProductApi = async (id: string) => {
