@@ -7,6 +7,7 @@ import AddProduct from "./pages/products/AddProduct";
 import Login from "./pages/Auth/Login";
 import Register from "./pages/Auth/Register";
 import Category from "./pages/category/Category";
+import ProductDetails from "./features/Products/ProductDetails";
 
 export const router = createBrowserRouter([
   //   {
@@ -52,6 +53,10 @@ export const router = createBrowserRouter([
       {
         path: "products",
         element: <ProductPage />,
+      },
+      {
+        path: "product-details/:productId",
+        element: <ProductDetails />,
       },
       {
         path: "add-products",
