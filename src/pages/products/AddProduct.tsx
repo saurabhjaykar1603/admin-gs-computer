@@ -11,7 +11,7 @@ function AddProduct() {
           <h1 className="text-3xl flex gap-3 font-bold tracking-tight items-center md:text-4xl lg:text-4xl mb-2 text-red-600">
             Add Products
           </h1>
-         
+
         </div>
         <div>
           <Button
