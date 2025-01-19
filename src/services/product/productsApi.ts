@@ -77,10 +77,10 @@ export const getAllProductsApi = async (
 
 export const getProductByIdApi = async (id: string) => {
   const response = await api.get(
-    buildUrl(`/api/v1/products/vender-products?id=${id}`)
+    (`/api/v1/products/vender-products?id=${id}`)
   );
   
-  return response.data;
+  return response.data.data;
 };
 
 export const deleteProductApi = async (id: string) => {
