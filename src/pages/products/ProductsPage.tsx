@@ -1,4 +1,5 @@
 import { Button } from "@/components/ui/button";
+import PaginationComponent from "@/components/ui/PaginationComponent";
 import ProductList from "@/features/Products/ProductList";
 import { useProducts } from "@/features/Products/useProducts";
 import { PlusCircle } from "lucide-react";
@@ -33,6 +34,10 @@ function ProductPage() {
         totalSize={totalSize}
       />
 
+      <PaginationComponent
+        totalSize={totalSize}
+        isLoading={isLoading}
+      />
     </>
   );
 }
