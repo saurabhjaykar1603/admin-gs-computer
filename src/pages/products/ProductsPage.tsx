@@ -7,7 +7,7 @@ import { useNavigate } from "react-router-dom";
 function ProductPage() {
   const navigate = useNavigate();
   const { products, isLoading, error, pageCount, totalSize } = useProducts();
-  
+
   return (
     <>
       <div className="flex flex-row justify-between items-center gap-2">
@@ -15,7 +15,7 @@ function ProductPage() {
           <h1 className="text-3xl font-bold tracking-tight md:text-4xl lg:text-4xl mb-2 text-red-600">
             ALL Products
           </h1>
-          
+
         </div>
         <div>
           <Button variant={"destructive"} onClick={() => navigate("/dashboard/add-products")}>
