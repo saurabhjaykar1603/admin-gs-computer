@@ -84,13 +84,13 @@ const ProductList = ({
                 productData?.map((product) => (
                     <div
                         key={product?._id}
-                        className="flex flex-col md:flex-row bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow w-full"
+                        className="flex flex-col md:flex-row bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow w-full border border-red-400"
                     >
-                        <div className="relative w-full md:w-1/3 h-48 md:h-64">
+                        <div className="relative w-full md:w-1/3 h-48 md:h-96">
                             <img
                                 src={product?.images?.[0]}
                                 alt={product?.title}
-                                className="w-full h-full object-cover"
+                                className="w-full h-full object-contain"
                             />
                         </div>
                         <div className="p-4 md:p-6 flex flex-col flex-grow w-full md:w-2/3">

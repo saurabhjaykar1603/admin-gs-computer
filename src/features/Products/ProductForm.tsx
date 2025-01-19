@@ -14,6 +14,8 @@ import {
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useState } from "react";
+import { useCategories } from "../Categories/useCategories";
+import { Category } from "@/types/Category";
 
 const formSchema = z.object({
   title: z.string().min(2, "Title must be at least 2 characters"),
@@ -30,6 +32,7 @@ const formSchema = z.object({
 function ProductForm() {
   const [features, setFeatures] = useState<string[]>([]);
   const [featureInput, setFeatureInput] = useState("");
+  const { categories, isLoading } = useCategories();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -54,11 +57,10 @@ function ProductForm() {
     console.log(values);
   };
 
-  const categoryOptions = [
-    { label: "Electronics", value: "electronics" },
-    { label: "Clothing", value: "clothing" },
-    { label: "Books", value: "books" },
-  ];
+  const categoryOptions = categories?.map((category: Category) => ({
+    label: category?.name,
+    value: category?._id,
+  }));
 
   return (
     <Form {...form}>
@@ -124,6 +126,8 @@ function ProductForm() {
                 data={categoryOptions}
                 placeholder="Select category"
                 required
+                isLoading={isLoading}
+              isDisabled={isLoading}
               />
             </FormControl>
             <FormMessage />
