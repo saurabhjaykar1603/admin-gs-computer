@@ -1,4 +1,5 @@
 import { Button } from "@/components/ui/button";
+import ProductForm from "@/features/Products/ProductForm";
 import { List } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
@@ -20,10 +21,11 @@ function AddProduct() {
           >
             {" "}
             <List className="text-3xl" />{" "}
-            <span className="hidden md:block">Product List</span>
+            <span className="hidden md:block">Add Product</span>
           </Button>
         </div>
       </div>
+            <ProductForm/>
     </div>
   );
 }
