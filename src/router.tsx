@@ -7,6 +7,7 @@ import AddProduct from "./pages/products/AddProduct";
 import Login from "./pages/Auth/Login";
 import Register from "./pages/Auth/Register";
 import Category from "./pages/category/Category";
+import PageNotFound from "./pages/PageNotFound/PageNotFound";
 
 export const router = createBrowserRouter([
   //   {
@@ -69,7 +70,7 @@ export const router = createBrowserRouter([
   },
   {
     path: "*",
-    element: <h1>Page not found</h1>,
+    element: <PageNotFound />,
   },
 ]);
 
