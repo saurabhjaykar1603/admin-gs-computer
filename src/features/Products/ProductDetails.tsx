@@ -61,7 +61,6 @@ const ProductDetails = () => {
               ))}
             </ul>
           </div>
-
         </div>
 
         <div className="max-w-xl border-2 bg-white shadow-sm p-4 rounded-md md:mt-10">
@@ -76,7 +75,6 @@ const ProductDetails = () => {
           />
         </div>
       </div>
-
     </div>
   );
 };

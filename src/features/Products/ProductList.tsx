@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
+import { Button } from "@/components/ui/button";
 
 interface Product {
     title: string | undefined;
@@ -55,7 +56,7 @@ const ProductList = ({
                 productData?.map((product) => (
                     <div
                         key={product?._id}
-                        className="flex flex-col md:flex-row bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow w-full border border-red-400"
+                        className="flex flex-col cursor-pointer md:flex-row bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow w-full border border-red-400"
                         onClick={() => {
                             window.location.href = `/dashboard/product-details/${product?._id}`;
                         }}
@@ -80,6 +81,10 @@ const ProductList = ({
                                     {product?.category?.name}
                                 </span>
                             </div>
+                            <div className="flex items-center justify-center mt-10 md:justify-start">
+                                <Button >View More</Button>
+                            </div>
+
                         </div>
                     </div>
                 ))
