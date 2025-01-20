@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useProduct } from './useProduct';
 import Gallery from 'react-image-gallery';
 import 'react-image-gallery/styles/css/image-gallery.css';
+import DeleteProduct from './DeleteProduct';
 
 const ProductDetails = () => {
   const { data, isLoading, isError, error } = useProduct();
@@ -47,7 +48,7 @@ const ProductDetails = () => {
   }));
 
   return (
-    <div className="sm:px-6 lg:px-8 p-5 relative">
+    <div className="sm:px-6 lg:px-8 p-7 relative border-2 border-red-400">
       {/* Three-dot menu */}
       <div className="absolute top-5 right-5">
         <button
@@ -82,7 +83,7 @@ const ProductDetails = () => {
               </li>
 
               <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer">
-                Delete
+                <DeleteProduct id={ productData?._id}/>
               </li>
 
               <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer">
