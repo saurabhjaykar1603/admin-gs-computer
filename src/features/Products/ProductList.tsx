@@ -43,37 +43,8 @@ const ProductList = ({
 
     if (isProductDataLoading) {
         return (
-            <div className="flex flex-col gap-6 mt-8">
-                <div className="flex flex-col md:flex-row bg-white rounded-lg shadow-md overflow-hidden w-full">
-                    <div className="relative w-full md:w-1/3 h-48 md:h-64">
-                        <Skeleton className="h-full w-full" />
-                    </div>
-                    <div className="p-4 md:p-6 flex flex-col flex-grow w-full md:w-2/3">
-                        <div className="flex justify-between items-start mb-4">
-                            <Skeleton className="h-6 md:h-8 w-1/3" />
-                            <Skeleton className="h-6 md:h-8 w-20 md:w-24" />
-                        </div>
-                        <Skeleton className="h-16 md:h-20 w-full mb-4" />
-                        <div className="mt-auto">
-                            <Skeleton className="h-5 md:h-6 w-20 md:w-24 rounded-full" />
-                        </div>
-                    </div>
-                </div>
-                <div className="flex flex-col md:flex-row bg-white rounded-lg shadow-md overflow-hidden w-full">
-                    <div className="relative w-full md:w-1/3 h-48 md:h-64">
-                        <Skeleton className="h-full w-full" />
-                    </div>
-                    <div className="p-4 md:p-6 flex flex-col flex-grow w-full md:w-2/3">
-                        <div className="flex justify-between items-start mb-4">
-                            <Skeleton className="h-6 md:h-8 w-1/3" />
-                            <Skeleton className="h-6 md:h-8 w-20 md:w-24" />
-                        </div>
-                        <Skeleton className="h-16 md:h-20 w-full mb-4" />
-                        <div className="mt-auto">
-                            <Skeleton className="h-5 md:h-6 w-20 md:w-24 rounded-full" />
-                        </div>
-                    </div>
-                </div>
+            <div className="flex items-center justify-center h-screen">
+                <Skeleton className="h-12 w-full rounded" />
             </div>
         );
     }
@@ -84,13 +55,16 @@ const ProductList = ({
                 productData?.map((product) => (
                     <div
                         key={product?._id}
-                        className="flex flex-col md:flex-row bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow w-full"
+                        className="flex flex-col md:flex-row bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow w-full border border-red-400"
+                        onClick={() => {
+                            window.location.href = `/dashboard/product-details/${product?._id}`;
+                        }}
                     >
-                        <div className="relative w-full md:w-1/3 h-48 md:h-64">
+                        <div className="relative w-full md:w-1/3 h-48 md:h-96">
                             <img
                                 src={product?.images?.[0]}
                                 alt={product?.title}
-                                className="w-full h-full object-cover"
+                                className="w-full h-full object-contain"
                             />
                         </div>
                         <div className="p-4 md:p-6 flex flex-col flex-grow w-full md:w-2/3">
