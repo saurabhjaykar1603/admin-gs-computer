@@ -22,7 +22,7 @@ const ProductDetails = () => {
     );
   }
 
-  const productData = data?.products[0]; // Assuming you are fetching one product at a time
+  const productData = data?.products[0];
 
   if (!productData) {
     return (
@@ -32,7 +32,6 @@ const ProductDetails = () => {
     );
   }
 
-  // Prepare images for the gallery
   const images = productData.images?.map((image) => ({
     original: image,
     thumbnail: image,
@@ -40,15 +39,19 @@ const ProductDetails = () => {
 
   return (
     <div className="sm:px-6 lg:px-8 p-5">
-      <p className="text-xl font-normal text-gray-600 md:mt-10 md:text-3xl">{productData?.title}</p>
+      <p className="text-xl font-medium text-gray-600 md:mt-10 md:text-2xl">{productData?.title}</p>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-20 items-start">
         <div className="space-y-6 mt-4 md:mt-10">
           <p className="text-gray-600 leading-8 text-sm md:text-[16px]">{productData?.description}</p>
-          <p className="text-red-500 font-bold text-2xl">₹{productData?.price}</p>
-          <div>
-            <p className={`text-sm ${productData.availability ? 'text-green-600' : 'text-red-500'}`}>
-              {productData?.availability ? 'Available' : 'Out of Stock'}
-            </p>
+          <div className='flex  items-center justify-between '>
+            <div>
+              <p className="text-red-500 font-bold text-2xl">₹{productData?.price}</p>
+            </div>
+            <div>
+              <p className={`text-normal ${productData.availability ? 'text-green-600' : 'text-red-500'}`}>
+                {productData?.availability ? 'Available' : 'Out of Stock'}
+              </p>
+            </div>
           </div>
           <div>
             <h1 className='text-xl font-normal text-gray-700'>Features :</h1>
@@ -61,7 +64,7 @@ const ProductDetails = () => {
 
         </div>
 
-        <div className="max-w-xl border p-4 rounded-md md:mt-10">
+        <div className="max-w-xl border-2 bg-white shadow-sm p-4 rounded-md md:mt-10">
           <Gallery
             items={images}
             showThumbnails={true}
