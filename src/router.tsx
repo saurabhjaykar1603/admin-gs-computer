@@ -8,6 +8,7 @@ import Login from "./pages/Auth/Login";
 import Register from "./pages/Auth/Register";
 import Category from "./pages/category/Category";
 import ProductDetails from "./features/Products/ProductDetails";
+import PageNotFound from "./pages/PageNotFound/PageNotFound";
 
 export const router = createBrowserRouter([
   //   {
@@ -74,7 +75,7 @@ export const router = createBrowserRouter([
   },
   {
     path: "*",
-    element: <h1>Page not found</h1>,
+    element: <PageNotFound />,
   },
 ]);
 
