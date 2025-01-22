@@ -51,9 +51,11 @@ function ProductForm() {
   });
 
   const addFeature = () => {
-    if (featureInput.trim()) { 
-      setFeatures([...features, featureInput]);
-      form.setValue("features", [...features, featureInput]);
+    if (featureInput.trim()) {
+      const newFeature = `${features.length + 1}. ${featureInput}`;
+      const updatedFeatures = [...features, newFeature];
+      setFeatures(updatedFeatures);
+      form.setValue("features", updatedFeatures);
       setFeatureInput("");
     }
   };
@@ -134,7 +136,7 @@ function ProductForm() {
               Add
             </Button>
           </div>
-          <ol className="list-decimal pl-6">
+          <ol className="list-non pl-6">
             {features.map((feature, index) => (
               <li key={index}>{feature}</li>
             ))}
