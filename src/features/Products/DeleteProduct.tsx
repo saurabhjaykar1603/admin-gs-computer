@@ -7,24 +7,21 @@ import {
     AlertDialogFooter,
     AlertDialogHeader,
     AlertDialogTitle,
-    AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { useDeleteProduct } from "./useDeleteProduct";
+import { useNavigate } from "react-router-dom";
 
-function DeleteProduct({ id }: { id: string }) {
-    const { deleteProduct } = useDeleteProduct();
+interface DeleteProductProps {
+    id: string;
+    onClose: () => void; // Callback to close the dialog
+}
+
+function DeleteProduct({ id, onClose }: DeleteProductProps) {
+    const { mutate: deleteProduct } = useDeleteProduct();
+const navigate =useNavigate()
 
     return (
-        <AlertDialog>
-            <AlertDialogTrigger asChild>
-                <button
-                    className="text-red-500 hover:underline"
-                    onClick={() => console.log("Trigger clicked")}
-                >
-                    Delete
-                </button>
-            </AlertDialogTrigger>
-
+        <AlertDialog open={true} onOpenChange={onClose}>
             <AlertDialogContent>
                 <AlertDialogHeader>
                     <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
@@ -34,10 +31,15 @@ function DeleteProduct({ id }: { id: string }) {
                     </AlertDialogDescription>
                 </AlertDialogHeader>
                 <AlertDialogFooter>
-                    <AlertDialogCancel>Cancel</AlertDialogCancel>
+                    <AlertDialogCancel onClick={onClose}>Cancel</AlertDialogCancel>
                     <AlertDialogAction
                         className="bg-red-400 hover:bg-red-600"
-                        onClick={() => deleteProduct(id)}
+                        onClick={() => deleteProduct(id,{
+                            onSuccess:()=>{
+                                navigate('/dashboard/products')
+
+                            }
+                        })}
                     >
                         Continue
                     </AlertDialogAction>

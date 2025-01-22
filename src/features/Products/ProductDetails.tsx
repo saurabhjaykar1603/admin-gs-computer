@@ -17,6 +17,7 @@ interface Product {
 const ProductDetails: React.FC = () => {
     const { data, isLoading, isError, error } = useProduct();
     const [menuOpen, setMenuOpen] = useState<boolean>(false);
+    const [deleteDialogOpen, setDeleteDialogOpen] = useState<boolean>(false);
 
     const toggleMenu = (): void => {
         setMenuOpen((prev) => !prev);
@@ -24,6 +25,14 @@ const ProductDetails: React.FC = () => {
 
     const closeMenu = (): void => {
         setMenuOpen(false);
+    };
+
+    const openDeleteDialog = (): void => {
+        setDeleteDialogOpen(true);
+    };
+
+    const closeDeleteDialog = (): void => {
+        setDeleteDialogOpen(false);
     };
 
     if (isLoading) {
@@ -90,8 +99,11 @@ const ProductDetails: React.FC = () => {
                     >
                         <ul className="py-2">
                             <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer">Edit</li>
-                            <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer">
-                                <DeleteProduct id={productData._id} />
+                            <li
+                                className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
+                                onClick={openDeleteDialog}
+                            >
+                                Delete
                             </li>
                             <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer">Duplicate</li>
                         </ul>
@@ -113,9 +125,7 @@ const ProductDetails: React.FC = () => {
                         </div>
                         <div>
                             <p
-                                className={`text-normal ${
-                                    productData.availability ? 'text-green-600' : 'text-red-500'
-                                }`}
+                                className={`text-normal ${productData.availability ? 'text-green-600' : 'text-red-500'}`}
                             >
                                 {productData.availability ? 'Available' : 'Out of Stock'}
                             </p>
@@ -143,6 +153,10 @@ const ProductDetails: React.FC = () => {
                     />
                 </div>
             </div>
+
+            {deleteDialogOpen && (
+                <DeleteProduct id={productData._id} onClose={closeDeleteDialog} />
+            )}
         </div>
     );
 };

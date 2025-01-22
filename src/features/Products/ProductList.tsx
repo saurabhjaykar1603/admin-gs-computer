@@ -45,7 +45,7 @@ const ProductList = ({
     if (isProductDataLoading) {
         return (
             <div className="flex items-center justify-center h-screen">
-                <Skeleton className="h-12 w-full rounded" />
+                <Skeleton className="h-12 w-full rounded " />
             </div>
         );
     }

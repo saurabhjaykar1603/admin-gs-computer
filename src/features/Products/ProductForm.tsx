@@ -16,6 +16,8 @@ import { Textarea } from "@/components/ui/textarea";
 import { useState } from "react";
 import { useCategories } from "../Categories/useCategories";
 import { Category } from "@/types/Category";
+import { TrashIcon } from "lucide-react";
+import { useCreateProduct } from "./useCreateProduct";
 
 const formSchema = z.object({
   title: z.string().min(2, "Title must be at least 2 characters"),
@@ -35,6 +37,7 @@ function ProductForm() {
   const [imageInput, setImageInput] = useState("");
   const [images, setImages] = useState<string[]>([]);
   const { categories, isLoading } = useCategories();
+  const { mutate: createProduct,isPending: isCreateProductPending } = useCreateProduct();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -48,7 +51,7 @@ function ProductForm() {
   });
 
   const addFeature = () => {
-    if (featureInput.trim()) {
+    if (featureInput.trim()) { 
       setFeatures([...features, featureInput]);
       form.setValue("features", [...features, featureInput]);
       setFeatureInput("");
@@ -71,7 +74,13 @@ function ProductForm() {
   };
 
   const onSubmit = (values: z.infer<typeof formSchema>) => {
-    console.log(values);
+    createProduct({
+      imageFile:[] as Array<File>,
+      data:{
+        ...values,
+        category:values.category.value
+      }
+    })
   };
 
   const categoryOptions = categories?.map((category: Category) => ({
@@ -181,9 +190,12 @@ function ProductForm() {
               Add
             </Button>
           </div>
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-2">
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-7 gap-2">
             {images.map((image, index) => (
-              <div key={index} className="relative group">
+              <div
+                key={index}
+                className="relative group  flex justify-center items-center"
+              >
                 <img
                   src={image}
                   alt={`Product ${index + 1}`}
@@ -191,16 +203,12 @@ function ProductForm() {
                 />
                 <Button
                   type="button"
-                  variant="destructive" 
+                  variant="destructive"
                   size="icon"
                   className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-8 h-8 opacity-0 group-hover:opacity-100 transition-opacity"
                   onClick={() => removeImage(index)}
                 >
-                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                    <path d="M3 6h18"></path>
-                    <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"></path>
-                    <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"></path>
-                  </svg>
+                  <TrashIcon width={16} height={16} stroke="currentColor" />
                 </Button>
               </div>
             ))}
@@ -216,10 +224,13 @@ function ProductForm() {
             Cancel
           </Button>
           <Button
+            disabled={isCreateProductPending}
             type="submit"
             className="min-w-[120px] bg-red-600 hover:bg-red-700 transition-all hover:scale-105"
           >
-            Submit
+           {
+            isCreateProductPending ? "Submitting..." : "Submit"
+           }
           </Button>
         </div>
       </form>
