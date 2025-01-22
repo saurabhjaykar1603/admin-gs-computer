@@ -26,12 +26,14 @@ const formSchema = z.object({
     value: z.string(),
   }),
   price: z.number().min(0, "Price must be positive"),
-  imageUrl: z.string().url("Must be a valid URL"),
+  images: z.array(z.string().url("Must be a valid URL")),
 });
 
 function ProductForm() {
   const [features, setFeatures] = useState<string[]>([]);
   const [featureInput, setFeatureInput] = useState("");
+  const [imageInput, setImageInput] = useState("");
+  const [images, setImages] = useState<string[]>([]);
   const { categories, isLoading } = useCategories();
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -41,7 +43,7 @@ function ProductForm() {
       description: "",
       features: [],
       price: 0,
-      imageUrl: "",
+      images: [],
     },
   });
 
@@ -51,6 +53,21 @@ function ProductForm() {
       form.setValue("features", [...features, featureInput]);
       setFeatureInput("");
     }
+  };
+
+  const addImage = () => {
+    if (imageInput.trim()) {
+      const newImages = [...images, imageInput];
+      setImages(newImages);
+      form.setValue("images", newImages);
+      setImageInput("");
+    }
+  };
+
+  const removeImage = (index: number) => {
+    const newImages = images.filter((_, i) => i !== index);
+    setImages(newImages);
+    form.setValue("images", newImages);
   };
 
   const onSubmit = (values: z.infer<typeof formSchema>) => {
@@ -153,20 +170,41 @@ function ProductForm() {
         </div>
 
         <div className="bg-white p-6 rounded-lg shadow border border-red-400">
-          <h2 className="text-xl font-semibold mb-4">Image</h2>
-          <FormField
-            control={form.control}
-            name="imageUrl"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Image URL</FormLabel>
-                <FormControl>
-                  <Input {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+          <h2 className="text-xl font-semibold mb-4">Images</h2>
+          <div className="flex gap-2 mb-4">
+            <Input
+              value={imageInput}
+              onChange={(e) => setImageInput(e.target.value)}
+              placeholder="Add image URL"
+            />
+            <Button type="button" onClick={addImage}>
+              Add
+            </Button>
+          </div>
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-2">
+            {images.map((image, index) => (
+              <div key={index} className="relative group">
+                <img
+                  src={image}
+                  alt={`Product ${index + 1}`}
+                  className="w-24 h-24 object-cover rounded-lg transition-all group-hover:opacity-75"
+                />
+                <Button
+                  type="button"
+                  variant="destructive" 
+                  size="icon"
+                  className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-8 h-8 opacity-0 group-hover:opacity-100 transition-opacity"
+                  onClick={() => removeImage(index)}
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M3 6h18"></path>
+                    <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"></path>
+                    <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"></path>
+                  </svg>
+                </Button>
+              </div>
+            ))}
+          </div>
         </div>
         <div className="flex gap-4 justify-end mt-6">
           <Button
