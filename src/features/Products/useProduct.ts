@@ -1,13 +1,25 @@
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, UseQueryResult } from '@tanstack/react-query';
 import { getProductByIdApi } from '@/services/product/productsApi';
 import { useParams } from 'react-router-dom';
 
-export const useProduct = () => {
-    const { productId } = useParams();
+interface Product {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    products: any;
+    _id: string;
+    title: string;
+    description: string;
+    price: number;
+    availability: boolean;
+    images?: string[];
+    features?: string[];
+}
 
-    return useQuery({
+export const useProduct = (): UseQueryResult<Product, Error> => {
+    const { productId } = useParams<{ productId: string }>();
+
+    return useQuery<Product, Error>({
         queryKey: ['product', productId],
-        queryFn: () => getProductByIdApi(productId),
-        enabled: !!productId,
+        queryFn: () => getProductByIdApi(productId!),
+        enabled: !!productId, 
     });
 };
