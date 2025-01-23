@@ -15,11 +15,12 @@ export const createProductApi = async (
   imageFile: File | Array<File>
 ) => {
   const response = await api.post("/api/v1/products/create", data);
+
   if (response.data.data.statusCode !== 200) {
     throw new Error("Failed to create product");
   }
   if (!Array.isArray(imageFile)) {
-    if (!imageFile) return;
+    if (!imageFile) return response.data.data;
     imageFile = [imageFile];
   }
   await uploadImage(response.data.data._id, imageFile);
@@ -30,17 +31,18 @@ export const updateProductApi = async (
   imageFile?: File | Array<File>
 ) => {
   const response = await api.patch(`/api/v1/products/update/${id}`, data);
+
   if (response.data.data.statusCode !== 200) {
     throw new Error("Failed to update product");
   }
-  
+
   if (imageFile) {
     if (!Array.isArray(imageFile)) {
       imageFile = [imageFile];
     }
     await uploadImage(id, imageFile);
   }
-  
+
   return response.data.data;
 };
 
@@ -76,10 +78,8 @@ export const getAllProductsApi = async (
 };
 
 export const getProductByIdApi = async (id: string) => {
-  const response = await api.get(
-    (`/api/v1/products/vender-products?id=${id}`)
-  );
-  
+  const response = await api.get(`/api/v1/products/vender-products?id=${id}`);
+
   return response.data.data;
 };
 

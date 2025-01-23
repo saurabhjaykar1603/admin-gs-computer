@@ -1,10 +1,13 @@
 import { updateProductApi } from "@/services/product/productsApi";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { UpdateProductPayload } from "@/types/Product";
 import { useToast } from "@/hooks/use-toast";
+import { useNavigate } from "react-router-dom";
 
 export const useUpdateProduct = () => {
   const { toast } = useToast();
+  const navigate = useNavigate()
+  const queryClient = useQueryClient();
   const { mutate, isPending, error } = useMutation({
     mutationFn: ({
       id,
@@ -20,6 +23,8 @@ export const useUpdateProduct = () => {
         title: "Product updated successfully",
         variant: "default",
       });
+      navigate(-1);
+      queryClient.invalidateQueries({ queryKey: ["products"] });
     },
     onError: () => {
       toast({
