@@ -4,7 +4,7 @@ import Gallery from "react-image-gallery";
 import "react-image-gallery/styles/css/image-gallery.css";
 import DeleteProduct from "./DeleteProduct";
 import { useCreateProduct } from "./useCreateProduct";
-import { toast, useToast } from "@/hooks/use-toast";
+import { toast } from "@/hooks/use-toast";
 import { useNavigate } from "react-router-dom";
 
 interface Product {
@@ -55,7 +55,7 @@ const ProductDetails: React.FC = () => {
                 variant: "default",
               });
               navigate(-1);
-                
+
         },
       }
     );

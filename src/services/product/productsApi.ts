@@ -6,8 +6,8 @@ interface CreateProductPayload {
   description: string;
   price: number;
   category: string;
-  features: [string];
-  images: [string];
+  features: string[];
+  images: string[];
 }
 
 export const createProductApi = async (
