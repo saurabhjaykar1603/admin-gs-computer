@@ -4,26 +4,13 @@ import DashbaordLayout from "./layouts/DashboardLayout";
 import ProductPage from "./pages/products/ProductsPage";
 import App from "./App";
 import AddProduct from "./pages/products/AddProduct";
-import Login from "./pages/Auth/Login";
-import Register from "./pages/Auth/Register";
 import Category from "./pages/category/Category";
 import ProductDetails from "./features/Products/ProductDetails";
 import PageNotFound from "./pages/PageNotFound/PageNotFound";
+import Login from "./pages/auth/Login";
+import Register from "./pages/auth/Register";
 
 export const router = createBrowserRouter([
-  //   {
-  //     path: "/",
-  //     element: <HomePage />,
-  //   },
-  //   {
-  //     path: "/login",
-  //     element: <LoginPage />,
-  //   },
-  //   {
-  //     path: "/register",
-  //     element: <RegisterPage />,
-  //   },
-
   {
     path: "/auth",
     element: <Authlayout />,
