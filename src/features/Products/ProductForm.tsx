@@ -18,6 +18,8 @@ import { useCategories } from "../Categories/useCategories";
 import { Category } from "@/types/Category";
 import { TrashIcon } from "lucide-react";
 import { useCreateProduct } from "./useCreateProduct";
+import { useParams } from "react-router-dom";
+import { DefaultFormValues } from "@/types/Product";
 
 const formSchema = z.object({
   title: z.string().min(2, "Title must be at least 2 characters"),
@@ -30,23 +32,28 @@ const formSchema = z.object({
   price: z.number().min(0, "Price must be positive"),
   images: z.array(z.string().url("Must be a valid URL")),
 });
+interface ProductFormProps {
+  defaultFormValues?: DefaultFormValues;
+}
 
-function ProductForm() {
-  const [features, setFeatures] = useState<string[]>([]);
+function ProductForm({defaultFormValues}:ProductFormProps) {
+  const [features, setFeatures] = useState<string[]>(["1. Feature 1", "2. Feature 2"]);
   const [featureInput, setFeatureInput] = useState("");
   const [imageInput, setImageInput] = useState("");
   const [images, setImages] = useState<string[]>([]);
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const { categories, isLoading } = useCategories();
-  const { mutate: createProduct, isPending: isCreateProductPending } = useCreateProduct();
-
+  const { mutate: createProduct, isPending: isCreateProductPending } =
+    useCreateProduct();
+  const { propertyId } = useParams();
+  const isEditable = Boolean(propertyId);
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
-    defaultValues: {
+    defaultValues: !isEditable ?  defaultFormValues :{
       title: "",
       description: "",
-      features: [],
+      features: [""],
       price: 0,
       images: [],
     },
@@ -56,12 +63,12 @@ function ProductForm() {
     const files = event.target.files;
     if (files) {
       const filesArray = Array.from(files);
-      setSelectedFiles(prev => [...prev, ...filesArray]);
+      setSelectedFiles((prev) => [...prev, ...filesArray]);
     }
   };
 
   const removeFile = (index: number) => {
-    setSelectedFiles(prev => prev.filter((_, i) => i !== index));
+    setSelectedFiles((prev) => prev.filter((_, i) => i !== index));
   };
 
   const addFeature = () => {
@@ -94,8 +101,8 @@ function ProductForm() {
       imageFile: selectedFiles,
       data: {
         ...values,
-        category: values.category.value
-      }
+        category: values.category.value,
+      },
     });
   };
 
@@ -243,8 +250,8 @@ function ProductForm() {
               className="hidden"
               id="file-upload"
             />
-            <Button 
-              type="button" 
+            <Button
+              type="button"
               onClick={() => fileInputRef.current?.click()}
               className="w-full"
             >
@@ -290,7 +297,7 @@ function ProductForm() {
             type="submit"
             className="min-w-[120px] bg-red-600 hover:bg-red-700 transition-all hover:scale-105"
           >
-           {isCreateProductPending ? "Submitting..." : "Submit"}
+            {isCreateProductPending ? "Submitting..." : "Submit"}
           </Button>
         </div>
       </form>

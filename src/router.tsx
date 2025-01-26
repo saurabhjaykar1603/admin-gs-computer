@@ -9,6 +9,7 @@ import ProductDetails from "./features/Products/ProductDetails";
 import PageNotFound from "./pages/PageNotFound/PageNotFound";
 import Login from "./pages/auth/Login";
 import Register from "./pages/auth/Register";
+import EditProduct from "./pages/products/EditProject";
 
 export const router = createBrowserRouter([
   {
@@ -49,6 +50,10 @@ export const router = createBrowserRouter([
       {
         path: "add-products",
         element: <AddProduct />,
+      },
+      {
+        path: "edit-products/:productId",
+        element: <EditProduct/>,
       },
       {
         path: "category",
