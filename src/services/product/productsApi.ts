@@ -30,7 +30,7 @@ export const updateProductApi = async (
 ) => {
   const response = await api.patch(`/api/v1/products/update/${id}`, data);
 
-  if (response.data.data.statusCode !== 200) {
+  if (response.status !== 200) {
     throw new Error("Failed to update product");
   }
 
@@ -46,6 +46,7 @@ export const updateProductApi = async (
 
 async function uploadImage(id: string, imageFile: File | Array<File>) {
   const formData = new FormData();
+  if (Array.isArray(imageFile) && imageFile.length === 0) return;
   const files = Array.isArray(imageFile) ? imageFile : [imageFile];
   files.forEach((file) => {
     formData.append("image", file);
@@ -59,9 +60,7 @@ async function uploadImage(id: string, imageFile: File | Array<File>) {
       },
     }
   );
-  if (response.data.statusCode !== 200) {
-    throw new Error("Failed to upload image");
-  }
+ 
   return response.data.data;
 }
 export const getAllProductsApi = async (

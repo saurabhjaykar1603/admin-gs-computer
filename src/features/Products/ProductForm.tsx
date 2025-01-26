@@ -20,6 +20,7 @@ import { TrashIcon } from "lucide-react";
 import { useCreateProduct } from "./useCreateProduct";
 import { useParams } from "react-router-dom";
 import { DefaultFormValues } from "@/types/Product";
+import { useUpdateProduct } from "./useUpdateProduct";
 
 const formSchema = z.object({
   title: z.string().min(2, "Title must be at least 2 characters"),
@@ -36,27 +37,41 @@ interface ProductFormProps {
   defaultFormValues?: DefaultFormValues;
 }
 
-function ProductForm({defaultFormValues}:ProductFormProps) {
-  const [features, setFeatures] = useState<string[]>(["1. Feature 1", "2. Feature 2"]);
+function ProductForm({ defaultFormValues }: ProductFormProps) {
+  const [features, setFeatures] = useState<string[]>(
+    defaultFormValues?.features || []
+  );
   const [featureInput, setFeatureInput] = useState("");
   const [imageInput, setImageInput] = useState("");
-  const [images, setImages] = useState<string[]>([]);
+  const [images, setImages] = useState<string[]>(
+    defaultFormValues?.images || []
+  );
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const { categories, isLoading } = useCategories();
   const { mutate: createProduct, isPending: isCreateProductPending } =
     useCreateProduct();
-  const { propertyId } = useParams();
-  const isEditable = Boolean(propertyId);
+  const { mutate: updateProduct, isPending: isUpdateProductPending } =
+    useUpdateProduct();
+  const { productId } = useParams();
+  const isEditable = Boolean(productId);
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
-    defaultValues: !isEditable ?  defaultFormValues :{
-      title: "",
-      description: "",
-      features: [""],
-      price: 0,
-      images: [],
-    },
+    defaultValues: isEditable
+      ? {
+          ...defaultFormValues,
+          category: {
+            label: defaultFormValues?.category?.name || "",
+            value: defaultFormValues?.category._id || "",
+          },
+        }
+      : {
+          title: "",
+          description: "",
+          features: [""],
+          price: 0,
+          images: [""],
+        },
   });
 
   const handleFileSelect = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -97,14 +112,29 @@ function ProductForm({defaultFormValues}:ProductFormProps) {
   };
 
   const onSubmit = (values: z.infer<typeof formSchema>) => {
-    createProduct({
-      imageFile: selectedFiles,
-      data: {
-        ...values,
-        category: values.category.value,
-      },
-    });
+    // Check if it's an editable product or not
+    if (isEditable) {
+      // If editing an existing product, call updateProduct
+      updateProduct({
+        id: productId || "", // Ensure the productId is valid
+        imageFile: selectedFiles, // Attach selected files
+        payload: {
+          ...values,
+          category: values.category.value, // Ensure category is a string (ID)
+        },
+      });
+    } else {
+      // If creating a new product, call createProduct
+      createProduct({
+        imageFile: selectedFiles, // Attach selected files
+        data: {
+          ...values,
+          category: values.category.value, // Ensure category is a string (ID)
+        },
+      });
+    }
   };
+  
 
   const categoryOptions = categories?.map((category: Category) => ({
     label: category?.name,
@@ -293,11 +323,11 @@ function ProductForm({defaultFormValues}:ProductFormProps) {
             Cancel
           </Button>
           <Button
-            disabled={isCreateProductPending}
+            disabled={isCreateProductPending || isUpdateProductPending}
             type="submit"
             className="min-w-[120px] bg-red-600 hover:bg-red-700 transition-all hover:scale-105"
           >
-            {isCreateProductPending ? "Submitting..." : "Submit"}
+            {(isCreateProductPending || isUpdateProductPending) ? "Submitting..." : "Submit"}
           </Button>
         </div>
       </form>

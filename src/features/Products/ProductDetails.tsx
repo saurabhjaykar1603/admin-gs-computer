@@ -50,12 +50,11 @@ const ProductDetails: React.FC = () => {
           navigate(-1);
         },
         onSettled: () => {
-            toast({
-                title: "Product duplicated successfully",
-                variant: "default",
-              });
-              navigate(-1);
-
+          toast({
+            title: "Product duplicated successfully",
+            variant: "default",
+          });
+          navigate(-1);
         },
       }
     );
@@ -142,7 +141,10 @@ const ProductDetails: React.FC = () => {
             onClick={closeMenu}
           >
             <ul className="py-2">
-              <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer">
+              <li
+                className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
+                onClick={() => navigate(`/dashboard/edit-products/${productData._id}`)}
+              >
                 Edit
               </li>
               <li

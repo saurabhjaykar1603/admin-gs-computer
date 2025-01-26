@@ -8,7 +8,7 @@ export interface CreateProductPayload {
 }
 
 export interface UpdateProductPayload extends CreateProductPayload {
-  id: string;
+  id?: string;
   imageFile?: File | Array<File>;
 }
 
@@ -17,8 +17,8 @@ export type DefaultFormValues = {
   description: string;
   features: string[];
   category: {
-    label: string;
-    value: string;
+    name: string;
+    _id: string;
   };
   price: number;
   images: string[];

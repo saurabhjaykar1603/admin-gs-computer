@@ -1,10 +1,17 @@
 import { Button } from "@/components/ui/button";
 import ProductForm from "@/features/Products/ProductForm";
+import { useProduct } from "@/features/Products/useProduct";
 import { List } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
 function EditProduct() {
   const navigate = useNavigate();
+  const { data, isLoading, } = useProduct();
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+  const ProductData = data?.products ? data?.products[0] : null;
+
   return (
     <div>
       <div className="flex flex-row justify-between items-center gap-2 mb-5">
@@ -24,20 +31,7 @@ function EditProduct() {
           </Button>
         </div>
       </div>
-      <ProductForm
-        defaultFormValues={{
-          title: "Default Title",
-          description:
-            "Default description of the product, it needs to be more than 10 characters.",
-          features: ["1. Feature 1", "2. Feature 2"],
-          category: {
-            label: "Default Category",
-            value: "default-category-id",
-          },
-          price: 100,
-          images: ["https://via.placeholder.com/150"],
-        }}
-      />
+      <ProductForm defaultFormValues={ProductData} />
     </div>
   );
 }
