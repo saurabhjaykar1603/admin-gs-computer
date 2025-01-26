@@ -13,7 +13,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { useCategories } from "../Categories/useCategories";
 import { Category } from "@/types/Category";
 import { TrashIcon } from "lucide-react";
@@ -36,8 +36,10 @@ function ProductForm() {
   const [featureInput, setFeatureInput] = useState("");
   const [imageInput, setImageInput] = useState("");
   const [images, setImages] = useState<string[]>([]);
+  const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
+  const fileInputRef = useRef<HTMLInputElement>(null);
   const { categories, isLoading } = useCategories();
-  const { mutate: createProduct,isPending: isCreateProductPending } = useCreateProduct();
+  const { mutate: createProduct, isPending: isCreateProductPending } = useCreateProduct();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -49,6 +51,18 @@ function ProductForm() {
       images: [],
     },
   });
+
+  const handleFileSelect = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const files = event.target.files;
+    if (files) {
+      const filesArray = Array.from(files);
+      setSelectedFiles(prev => [...prev, ...filesArray]);
+    }
+  };
+
+  const removeFile = (index: number) => {
+    setSelectedFiles(prev => prev.filter((_, i) => i !== index));
+  };
 
   const addFeature = () => {
     if (featureInput.trim()) {
@@ -77,12 +91,12 @@ function ProductForm() {
 
   const onSubmit = (values: z.infer<typeof formSchema>) => {
     createProduct({
-      imageFile:[] as Array<File>,
-      data:{
+      imageFile: selectedFiles,
+      data: {
         ...values,
-        category:values.category.value
+        category: values.category.value
       }
-    })
+    });
   };
 
   const categoryOptions = categories?.map((category: Category) => ({
@@ -196,7 +210,7 @@ function ProductForm() {
             {images.map((image, index) => (
               <div
                 key={index}
-                className="relative group  flex justify-center items-center"
+                className="relative group flex justify-center items-center"
               >
                 <img
                   src={image}
@@ -216,6 +230,52 @@ function ProductForm() {
             ))}
           </div>
         </div>
+
+        <div className="bg-white p-6 rounded-lg shadow border border-red-400">
+          <h2 className="text-xl font-semibold mb-4">Upload Images</h2>
+          <div className="flex gap-2 mb-4">
+            <Input
+              type="file"
+              multiple
+              accept="image/*"
+              ref={fileInputRef}
+              onChange={handleFileSelect}
+              className="hidden"
+              id="file-upload"
+            />
+            <Button 
+              type="button" 
+              onClick={() => fileInputRef.current?.click()}
+              className="w-full"
+            >
+              Choose Files
+            </Button>
+          </div>
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-7 gap-2">
+            {selectedFiles.map((file, index) => (
+              <div
+                key={index}
+                className="relative group flex justify-center items-center"
+              >
+                <img
+                  src={URL.createObjectURL(file)}
+                  alt={`Selected ${index + 1}`}
+                  className="w-24 h-24 object-cover rounded-lg transition-all group-hover:opacity-75"
+                />
+                <Button
+                  type="button"
+                  variant="destructive"
+                  size="icon"
+                  className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-8 h-8 opacity-0 group-hover:opacity-100 transition-opacity"
+                  onClick={() => removeFile(index)}
+                >
+                  <TrashIcon width={16} height={16} stroke="currentColor" />
+                </Button>
+              </div>
+            ))}
+          </div>
+        </div>
+
         <div className="flex gap-4 justify-end mt-6">
           <Button
             type="button"
@@ -230,9 +290,7 @@ function ProductForm() {
             type="submit"
             className="min-w-[120px] bg-red-600 hover:bg-red-700 transition-all hover:scale-105"
           >
-           {
-            isCreateProductPending ? "Submitting..." : "Submit"
-           }
+           {isCreateProductPending ? "Submitting..." : "Submit"}
           </Button>
         </div>
       </form>

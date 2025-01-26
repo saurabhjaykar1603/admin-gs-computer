@@ -15,7 +15,9 @@ export const useCreateProduct = () => {
     }: {
       data: CreateProductPayload;
       imageFile: File | Array<File>;
-    }) => createProductApi(data, imageFile),
+    }) => {
+      return createProductApi(data, imageFile);
+    },
     onSuccess: () => {
       toast({
         title: "Product created successfully",

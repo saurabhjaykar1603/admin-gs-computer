@@ -15,13 +15,11 @@ export const createProductApi = async (
   imageFile: File | Array<File>
 ) => {
   const response = await api.post("/api/v1/products/create", data);
-
-  if (response.data.data.statusCode !== 200) {
-    throw new Error("Failed to create product");
-  }
+ 
   if (!Array.isArray(imageFile)) {
     if (!imageFile) return response.data.data;
-    imageFile = [imageFile];
+    imageFile = [imageFile]
+    
   }
   await uploadImage(response.data.data._id, imageFile);
 };
@@ -61,7 +59,7 @@ async function uploadImage(id: string, imageFile: File | Array<File>) {
       },
     }
   );
-  if (response.data.data.statusCode !== 200) {
+  if (response.data.statusCode !== 200) {
     throw new Error("Failed to upload image");
   }
   return response.data.data;
