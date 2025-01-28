@@ -21,6 +21,7 @@ import { useCreateProduct } from "./useCreateProduct";
 import { useParams } from "react-router-dom";
 import { DefaultFormValues } from "@/types/Product";
 import { useUpdateProduct } from "./useUpdateProduct";
+import { useDeleteProductImage } from "./useDeletePropertyImage";
 
 const formSchema = z.object({
   title: z.string().min(2, "Title must be at least 2 characters"),
@@ -53,6 +54,8 @@ function ProductForm({ defaultFormValues }: ProductFormProps) {
     useCreateProduct();
   const { mutate: updateProduct, isPending: isUpdateProductPending } =
     useUpdateProduct();
+  const { mutate: deleteImage, isPending: isDeleteImagePending } = useDeleteProductImage();
+  
   const { productId } = useParams();
   const isEditable = Boolean(productId);
   const form = useForm<z.infer<typeof formSchema>>({
@@ -106,9 +109,24 @@ function ProductForm({ defaultFormValues }: ProductFormProps) {
   };
 
   const removeImage = (index: number) => {
-    const newImages = images.filter((_, i) => i !== index);
-    setImages(newImages);
-    form.setValue("images", newImages);
+    const imageUrl = images[index];
+    if (imageUrl.includes('cloudinary.com')) {
+ 
+      deleteImage({
+        id: productId || '',
+        url: imageUrl
+      }, {
+        onSuccess: () => {
+          const newImages = images.filter((_, i) => i !== index);
+          setImages(newImages);
+          form.setValue("images", newImages);
+        }
+      });
+    } else {
+      const newImages = images.filter((_, i) => i !== index);
+      setImages(newImages);
+      form.setValue("images", newImages);
+    }
   };
 
   const onSubmit = (values: z.infer<typeof formSchema>) => {
@@ -134,7 +152,6 @@ function ProductForm({ defaultFormValues }: ProductFormProps) {
       });
     }
   };
-  
 
   const categoryOptions = categories?.map((category: Category) => ({
     label: category?.name,
@@ -260,6 +277,7 @@ function ProductForm({ defaultFormValues }: ProductFormProps) {
                   size="icon"
                   className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-8 h-8 opacity-0 group-hover:opacity-100 transition-opacity"
                   onClick={() => removeImage(index)}
+                  disabled={isDeleteImagePending}
                 >
                   <TrashIcon width={16} height={16} stroke="currentColor" />
                 </Button>
@@ -327,7 +345,9 @@ function ProductForm({ defaultFormValues }: ProductFormProps) {
             type="submit"
             className="min-w-[120px] bg-red-600 hover:bg-red-700 transition-all hover:scale-105"
           >
-            {(isCreateProductPending || isUpdateProductPending) ? "Submitting..." : "Submit"}
+            {isCreateProductPending || isUpdateProductPending
+              ? "Submitting..."
+              : "Submit"}
           </Button>
         </div>
       </form>

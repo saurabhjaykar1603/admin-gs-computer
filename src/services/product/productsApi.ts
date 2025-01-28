@@ -86,7 +86,7 @@ export const deleteProductApi = async (id: string) => {
 };
 export const deleteProductImageApi = async (id: string, url: string) => {
   const response = await api.delete(`/api/v1/products/delete-image/${id}`, {
-    data: { url },
+    data: { imageUrl:url },
   });
   return response.data.data;
 };
