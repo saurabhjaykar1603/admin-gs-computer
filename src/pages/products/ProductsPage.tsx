@@ -13,15 +13,19 @@ function ProductPage() {
     <>
       <div className="flex flex-row justify-between items-center gap-2">
         <div>
-          <h1 className="text-3xl font-bold tracking-tight md:text-4xl lg:text-4xl mb-2 text-red-600">
+          <h1 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold tracking-tight mb-2 text-red-600">
             ALL Products
           </h1>
-
         </div>
         <div>
-          <Button variant={"destructive"} onClick={() => navigate("/dashboard/add-products")}>
-            {" "}
-            <PlusCircle className="text-3xl" /> Add Product
+          <Button
+            variant={"destructive"}
+            onClick={() => navigate("/dashboard/add-products")}
+            className="text-sm sm:text-base"
+          >
+            <PlusCircle className="h-4 w-4 sm:h-5 sm:w-5 mr-1 sm:mr-2" />
+            <span className="hidden sm:inline">Add Product</span>
+            <span className="sm:hidden">Add</span>
           </Button>
         </div>
       </div>
@@ -34,10 +38,7 @@ function ProductPage() {
         totalSize={totalSize}
       />
 
-      <PaginationComponent
-        totalSize={totalSize}
-        isLoading={isLoading}
-      />
+      <PaginationComponent totalSize={totalSize} isLoading={isLoading} />
     </>
   );
 }

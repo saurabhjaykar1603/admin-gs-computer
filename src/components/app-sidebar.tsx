@@ -47,8 +47,8 @@ const data = {
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   return (
-    <Sidebar {...props}>
-      <SidebarHeader>
+    <Sidebar className="max-h-[100dvh] overflow-hidden" {...props}>
+      <SidebarHeader className="flex-shrink-0">
         <SidebarMenu>
           <SidebarMenuItem>
             <SidebarMenuButton size="lg" asChild>
@@ -64,10 +64,10 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
           </SidebarMenuItem>
         </SidebarMenu>
       </SidebarHeader>
-      <SidebarContent>
+      <SidebarContent className="flex-1 overflow-y-auto">
         <NavMain items={data.navMain}/>
       </SidebarContent>
-      <SidebarFooter>
+      <SidebarFooter className="flex-shrink-0">
         <div className="p-1">
           <SidebarOptInForm />
         </div>
